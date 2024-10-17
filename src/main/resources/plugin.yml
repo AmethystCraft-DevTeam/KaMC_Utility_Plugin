@@ -1,0 +1,11 @@
+name: KaMC_UtilityPlugin
+main: com.kamcdrakgod.utility.Main
+version: Beta1.0
+api-version: 1.20.6
+description: 这是一个测试插件
+authors: [Drakgod]
+website: https://www.kamc.fun
+commands:
+  car:
+    description: "领取一个矿车,冷却10秒"
+    usage: "/car"
