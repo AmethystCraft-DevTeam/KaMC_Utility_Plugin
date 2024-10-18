@@ -1,11 +1,38 @@
 name: KaMC_UtilityPlugin
-main: com.kamcdrakgod.utility.Main
-version: Beta1.0
+main: com.DrakGod.KaMCUP.Main
+version: Beta1.0.1
 api-version: 1.20.6
-description: 这是一个测试插件
+description: 这是一个专门为KaMC打造的插件
 authors: [Drakgod]
 website: https://www.kamc.fun
 commands:
   car:
-    description: "领取一个矿车,冷却10秒"
-    usage: "/car"
+    description: 领取一个矿车,冷却10秒
+    usage: /car
+  uuid:
+    description: 获取一个玩家的uuid
+    usage: /uuid <Player>
+
+permissions:
+  kamcup.*:
+    description: 授予对所有kamcup命令的访问权限
+    default: op
+    children:
+      kamcup.admin: true
+  kamcup.admin:
+    description: 授予管理员权限
+    default: false
+    children:
+      kamcup.commands: true
+  kamcup.commands: 
+    description: 授予执行命令权限
+    default: false
+    children:
+      kamcup.commands.car: true
+      kamcup.commands.uuid: true
+  kamcup.commands.car:
+    description: 授予执行/car权限
+    default: true
+  kamcup.commands.uuid:
+    description: 授予执行/uuid权限
+    default: false
