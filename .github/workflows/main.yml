@@ -2,10 +2,10 @@ name: 自动fork
 
 on:
   schedule:
-    - cron: '* */1 * * *'
+    - cron: '* * * * */1'
 jobs:
   repo-sync:
-    runs-on: windows
+    runs-on: windows10
     steps:
       - uses: TG908/fork-sync@v1.6.3
         with:
