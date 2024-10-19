@@ -6,7 +6,7 @@
 
     <groupId>com.kamcdrakgod.utility</groupId>
     <artifactId>kamc_utility_plugin</artifactId>
-    <version>Beta1.0.1</version>
+    <version>Beta1.0</version>
     <name>kamc_utility_plugin</name>
 
     <properties>
