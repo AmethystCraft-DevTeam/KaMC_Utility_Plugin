@@ -1,5 +1,7 @@
 package com.DrakGod.KaMCUP;
 
+import com.DrakGod.KaMCUP.CheckUpdate;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Server;
@@ -38,6 +40,7 @@ public class Main extends JavaPlugin implements Listener {
             }); 
         }
     };
+    BukkitRunnable CheckUpdateMain = new CheckUpdate().CheckUpdateMain;
 
     @Override
     public void onEnable() {
@@ -47,20 +50,19 @@ public class Main extends JavaPlugin implements Listener {
     
         pluginmanager.registerEvents(new Listeners(),this);
         CWTremove.runTaskTimer(this, 20, 20);
+        CheckUpdateMain.runTaskTimer(this, 20, 72000);
 
         PluginCommand car = this.getCommand("car");
         PluginCommand uuid = this.getCommand("uuid");
 
         car.setExecutor(this);
-        
-    
         uuid.setExecutor(this);
-        
 
         logger.info("[KaMC实用插件] 插件成功启用"); }
 
     @Override
     public void onDisable() {
+        CheckUpdateMain.cancel();
         CWTremove.cancel();
         Car_Wait_Time.clear();
 
