@@ -6,6 +6,9 @@ description: 这是一个专门为KaMC打造的插件
 authors: [Drakgod]
 website: https://www.kamc.fun
 commands:
+  kamcup:
+    description: 主指令
+    permission: kamcup.commands.kamcup
   car:
     description: 领取一个矿车,冷却10秒
     usage: /car
@@ -32,6 +35,9 @@ permissions:
     children:
       kamcup.commands.car: true
       kamcup.commands.uuid: true
+  kamcup.commands.kamcup:
+    description: 授予执行/kamcup里所有指令的权限
+    default: false
   kamcup.commands.car:
     description: 授予执行/car权限
     default: true
