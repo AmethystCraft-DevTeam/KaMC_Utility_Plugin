@@ -6,28 +6,24 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class CheckUpdate {
-    Logger logger = Bukkit.getLogger();
-
+public class CheckUpdate extends AllUse {
     BukkitRunnable CheckUpdateMain = new BukkitRunnable() {
         @Override
         public void run() {
             String NowVersion = getNowVersion();
             String NewVersion = getNewVersion();
             if (NewVersion == null) {return;}
-            if (NowVersion != NewVersion) {
+            if (!(NowVersion.equalsIgnoreCase(NewVersion))) {
                 logger.warning("[KaMC实用插件] 有新版本可用:"+NewVersion+" 当前版本:"+NowVersion);
             }
         }
     };
 
     public String getNowVersion() {
-        return "v"+Bukkit.getPluginManager().getPlugin("KaMC_UtilityPlugin").getDescription().getVersion().toString();
+        return "v"+getMain().getDescription().getVersion().toString();
     }
 
     public String getNewVersion() {

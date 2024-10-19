@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 
-public class Listeners implements Listener {
+public class Listeners extends AllUse implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerEnterVehicle(VehicleEnterEvent event) {
         if (event.getVehicle().getType() == EntityType.MINECART) {
