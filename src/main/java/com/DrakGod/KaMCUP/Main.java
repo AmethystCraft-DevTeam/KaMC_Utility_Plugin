@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.command.ConsoleCommandSender;
@@ -30,6 +29,7 @@ public class Main extends JavaPlugin {
     CommandHandler CCommandHandler = new CommandHandler();
     Listeners CListeners = new Listeners();
     TabCompleters CTabCompleters = new TabCompleters();
+    private static Main CMain;
 
     BukkitRunnable CWTremove = new BukkitRunnable() {
         @Override
@@ -41,11 +41,15 @@ public class Main extends JavaPlugin {
             }); 
         }
     };
-    
+
+    BukkitRunnable UCMain = new BukkitRunnable() {@Override public void run() {CMain = getThis();}};
+    public Main getThis() {return this;}
+    public static Main getCMain() {return CMain;}
+
     @Override
     public void onEnable() {
-        kamcupcmds.put("help","获取帮助");
-        kamcupcmds.put("version","获取当前版本");
+        kamcupcmds.put("help","- 获取帮助");
+        kamcupcmds.put("version","- 获取当前版本");
 
         ItemMeta Train_Name = Train.getItemMeta();
         Train_Name.setItemName("列车");
@@ -53,6 +57,7 @@ public class Main extends JavaPlugin {
     
         pluginmanager.registerEvents(CListeners,this);
         CWTremove.runTaskTimer(this, 20, 20);
+        UCMain.runTaskTimer(this, 0, 1);
         CCheckUpdate.CheckUpdateMain.runTaskTimer(this, 20, 72000);
 
         PluginCommand kamcup = this.getCommand("kamcup");

@@ -12,11 +12,10 @@ public class TabCompleters extends AllUse implements TabCompleter{
     public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
         if (cmd.getName().equalsIgnoreCase("kamcup")) {
-            if (args.length == 0) {
+            if (args.length == 1) {
                 getMain().kamcupcmds.forEach((key,value) -> {completions.add(key);});
             }
         }
-        
         return completions;
     }
 }

@@ -7,7 +7,8 @@ authors: [Drakgod]
 website: https://www.kamc.fun
 commands:
   kamcup:
-    description: 主指令
+    description: KaMC实用插件主指令
+    usage: /help <Commands>
     permission: kamcup.commands.kamcup
   car:
     description: 领取一个矿车,冷却10秒
@@ -33,6 +34,7 @@ permissions:
     description: 授予执行命令权限
     default: false
     children:
+      kamcup.commands.kamcup: true
       kamcup.commands.car: true
       kamcup.commands.uuid: true
   kamcup.commands.kamcup:

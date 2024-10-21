@@ -46,9 +46,9 @@ public class CommandHandler extends AllUse implements CommandExecutor{
 
         if (CommandName.equalsIgnoreCase("kamcup")) {
             if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
-                sender.sendMessage("§b----------KaMC实用插件帮助----------");
-                getMain().kamcupcmds.forEach((key,value) -> {sender.sendMessage("§6"+key+":"+value);});
-                sender.sendMessage("§a----------KaMC实用插件帮助----------");
+                sender.sendMessage("§6------ ======= KaMC实用插件帮助 ======= ------");
+                getMain().kamcupcmds.forEach((key,value) -> {sender.sendMessage("§b/kamcup "+key+" "+value);});
+                sender.sendMessage("§6------ ======= KaMC实用插件帮助 ======= ------");
                 return true;
             }
 
