@@ -1,0 +1,6 @@
+max_daily_task: 5
+daily_tasks:
+- Test:
+    item: apple
+    count: 1
+    give_money: !!float '1'

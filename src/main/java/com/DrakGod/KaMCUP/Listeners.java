@@ -1,53 +1,61 @@
 package com.DrakGod.KaMCUP;
 
-import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Minecart;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
+import java.time.LocalDateTime;
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
+
 import org.bukkit.event.Listener;
-import org.bukkit.event.vehicle.VehicleEnterEvent;
-import org.bukkit.event.vehicle.VehicleMoveEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Listeners extends AllUse implements Listener {
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerEnterVehicle(VehicleEnterEvent event) {
-        if (event.getVehicle().getType() == EntityType.MINECART) {
-            Minecart minecart = (Minecart) event.getVehicle();
-            Player player = (Player) event.getEntered();
-            if (player == null || !player.getScoreboardTags().contains("Cared")) {return;}
+    BukkitRunnable Seconds_Update = new BukkitRunnable() {
+        @Override
+        public void run() {
+            server.getOnlinePlayers().forEach((player) -> {
+                UUID player_uuid = player.getUniqueId();
+                List player_tasks = getMain().Player_Daily_Tasks.getOrDefault(player_uuid,null);
+                List all_tasks = AllUse.get_All_Task_Names();
+                if (player_tasks == null) {
+                    player_tasks = AllUse.get_Random_Tasks();
+                } else {
+                    Iterator<String> iterator = player_tasks.iterator();
+                    while (iterator.hasNext()) {
+                        String task = iterator.next();
+                        if (!all_tasks.contains(task) & !task.contains(" OK")) {
+                            player_tasks = AllUse.get_Random_Tasks();
+                            break;
+                        }
+                    }
 
-            minecart.setMaxSpeed(65536);
-            player.removeScoreboardTag("Cared");
-            player.sendTitle("§a欢迎乘坐§bKaMC§e快速列车","§4如果被清除,请重新执行/car");
+                    int player_task_lenth = player_tasks.toArray().length;
+                    if (player_task_lenth < new Integer(get_Max_Daily_Task().get(0))) {
+                        if (player_task_lenth < all_tasks.toArray().length) {
+                            iterator = all_tasks.iterator();
+                            while (iterator.hasNext()) {
+                                String task = iterator.next();
+                                if (!player_tasks.contains(task)) {
+                                    player_tasks.add(task);
+                                }
+                                player_task_lenth = player_tasks.toArray().length;
+                                if (player_task_lenth == new Integer(get_Max_Daily_Task().get(0))){
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                getMain().Player_Daily_Tasks.put(player_uuid,player_tasks);
+            });
+
+            getMain().now = LocalDateTime.now();
+            if (getMain().now.isAfter(getMain().midnightToday)) {
+                server.getOnlinePlayers().forEach((player) -> {
+                    getMain().Player_Daily_Tasks.put(player.getUniqueId(),get_Random_Tasks());
+                });
+                getMain().midnightToday = getMain().now.toLocalDate().atStartOfDay().plusDays(1);
+            }
         }
-    }
-
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onMinecartMove(VehicleMoveEvent event) {
-        if (!(event.getVehicle() instanceof Minecart)) {return;}
-
-        Minecart minecart = (Minecart) event.getVehicle();
-        Player player = (Player) minecart.getPassenger();
-        if (player == null) {return;}
-
-        Location from = event.getFrom();
-        Location to = event.getTo();
-
-        double deltaX = to.getX() - from.getX();
-        double deltaY = to.getY() - from.getY();
-        double deltaZ = to.getZ() - from.getZ();
-
-        double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-        if (distance <= 0) {return;}
-        
-        Integer ispeed = (int) (distance * 72.0);
-        StringBuilder out = new StringBuilder(ispeed.toString());
-        while (out.length() < 5) {
-            out.insert(0, " ");
-        }
-
-        player.sendActionBar("当前速度:" + out + " km/h");
-    }
+    };
 }
+
